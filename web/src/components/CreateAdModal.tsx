@@ -2,11 +2,10 @@ import * as Dialog from '@radix-ui/react-dialog'
 import * as Checkbox from '@radix-ui/react-checkbox'
 import * as Select from '@radix-ui/react-select'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
-import { Check, GameController } from 'phosphor-react'
+import { Check, GameController, CaretDown, CaretUp } from 'phosphor-react'
 import { Input } from './Form/Input'
 import { FormEvent, useEffect, useState } from 'react'
 import axios from 'axios';
-
 interface Game {
   id: string;
   title: string;
@@ -59,19 +58,40 @@ export function CreateAdModal() {
           <Dialog.Title className="text-3xl text-white font-black">Publique um anúncio</Dialog.Title>
 
           <form onSubmit={handleCreateAd} className="mt-8 flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 h-16">
               <label htmlFor="game" className="font-semibold">Qual o Game</label>
-              <select
-                name="game"
-                id="game"
-                placeholder="Selecione o game que deseja jogar"
-                className='bg-zinc-900 py-3 px-4 rounded text-sm placeholder:text-zinc-500 appearance-none'
-                defaultValue=""
-              >
-                <option disabled value="" >Selecione o game que deseja jogar</option>
-                {games.map(game => <option key={game.id} value={game.id}>{game.title}</option>
-                )}
-              </select>
+              <Select.Root name="game">
+                <Select.Trigger asChild aria-label="game">
+                  <button className='flex items-center flex-row justify-between'>
+                    <Select.Value placeholder="Selecione o game que deseja jogar" />
+                    <Select.Icon className="ml-2">
+                      <CaretDown />
+                    </Select.Icon>
+                  </button>
+                </Select.Trigger>
+
+
+                <Select.Content className='flex flex-col'>
+                  <Select.Viewport className="bg-zinc-600 p-2 rounded-lg shadow-lg absolute">
+                    <Select.Group>
+                      {games.map(game => (
+                        <Select.Item
+                          key={game.id}
+                          value={game.title}
+                          className={
+                            "relative flex items-center px-8 py-2 rounded-md text-sm text-white-700 dark:zinc-gray-300 font-medium focus:bg-zinc-800 radix-disabled:opacity-50 focus:outline-none select-none"
+                          }
+                          id="game"
+                        >
+                          <Select.ItemText>{game.title}</Select.ItemText>
+                        </Select.Item>
+                      ))}
+                    </Select.Group>
+                  </Select.Viewport>
+                </Select.Content>
+              </Select.Root>
+
+
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="name">Seu nome(ou nickname)</label>
