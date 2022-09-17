@@ -3,7 +3,7 @@ module.exports = {
   content: ["./src/**/*.tsx", "./index.html"],
   theme: {
     screens: {
-      extraMobile: '240px'
+      'sm': { max: '640px' }
     },
     extend: {
       fontFamily: {
