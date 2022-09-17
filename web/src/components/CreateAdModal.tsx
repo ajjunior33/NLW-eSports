@@ -6,6 +6,8 @@ import { Check, GameController, CaretDown, CaretUp } from 'phosphor-react'
 import { Input } from './Form/Input'
 import { FormEvent, useEffect, useState } from 'react'
 import axios from 'axios';
+import toast from 'react-hot-toast';
+
 interface Game {
   id: string;
   title: string;
@@ -43,10 +45,54 @@ export function CreateAdModal() {
         hourEnd: data.hourEnd,
         useVoiceChannel: useVoiceChannel
       });
-      alert('Anúncio criado com sucesso.')
+      toast('Anúncio criado com sucesso.', {
+        duration: 4000,
+        position: 'top-center',
+
+        // Styling
+        style: {},
+        className: '',
+
+        // Custom Icon
+        icon: '✅',
+
+        // Change colors of success/error/loading icon
+        iconTheme: {
+          primary: '#000',
+          secondary: '#fff',
+        },
+
+        // Aria
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
+
     } catch (err) {
-      console.log(err);
-      alert("Erro ao criar o anúncio.")
+      toast.error('Ops... Não foi possível cadastrar seu anúncio.', {
+        duration: 4000,
+        position: 'top-center',
+
+        // Styling
+        style: {},
+        className: '',
+
+        // Custom Icon
+        icon: '✅',
+
+        // Change colors of success/error/loading icon
+        iconTheme: {
+          primary: '#000',
+          secondary: '#fff',
+        },
+
+        // Aria
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
     }
 
   }
@@ -54,10 +100,11 @@ export function CreateAdModal() {
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="bg-black/60 inset-0 fixed">
-        <Dialog.Content className="fixed bg-[#2a2634] py-8 px-10 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg w-[480px] shadow-lg shadow-black/25 sm:w-[90%] sm:flex sm:flex-col sm:overflow-x-scroll sm:h-[90%]">
+        <Dialog.Content className="fixed bg-[#2a2634] py-8 px-10 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg w-[480px] shadow-lg shadow-black/25 h-[80%] sm:w-[90%] sm:flex sm:flex-col overflow-x-scroll sm:h-[90%]">
           <Dialog.Title className="text-3xl text-white font-black">Publique um anúncio</Dialog.Title>
           <form onSubmit={handleCreateAd} className="mt-8 flex flex-col gap-4">
             <div className="flex flex-col gap-2 h-16">
+
               <label htmlFor="game" className="font-semibold">Qual o Game</label>
               <Select.Root name="game">
                 <Select.Trigger asChild aria-label="game">
@@ -76,7 +123,7 @@ export function CreateAdModal() {
                       {games.map(game => (
                         <Select.Item
                           key={game.id}
-                          value={game.title}
+                          value={game.id}
                           className={
                             "relative flex items-center px-8 py-2 rounded-md text-sm text-white-700 dark:zinc-gray-300 font-medium focus:bg-zinc-800 radix-disabled:opacity-50 focus:outline-none select-none"
                           }
@@ -194,6 +241,7 @@ export function CreateAdModal() {
                 <GameController size={24} />
                 Encontrar duo
               </button>
+
             </footer>
           </form>
         </Dialog.Content>

@@ -3,7 +3,7 @@ interface GameBannerProps {
   bannerUrl: string;
   title: string;
   adsCount: number;
-}
+} 
 export function GameBanner(props: GameBannerProps) {
   return (
     <a href="#" className="relative rounded-lg overflow-hidden keen-slider__slide">

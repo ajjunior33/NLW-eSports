@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import * as Dialog from '@radix-ui/react-dialog';
 import axios from 'axios'
 import { useKeenSlider } from 'keen-slider/react'
-
+import toast, { Toaster } from 'react-hot-toast'
 import logoImg from "./assets/logo.svg";
 import "keen-slider/keen-slider.min.css"
 import "./styles/main.css"
@@ -37,7 +37,7 @@ function App() {
       '(max-width: 640px)':{
         slides:{
           perView: 2,
-          spacing: 10,
+          spacing: 15,
           origin:"center"
         }
       }
@@ -71,6 +71,7 @@ function App() {
         <CreateAdBanner />
         <CreateAdModal />
       </Dialog.Root>
+      <Toaster/>
     </div>
   )
 }
