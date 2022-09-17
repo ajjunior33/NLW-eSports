@@ -2,6 +2,9 @@
 module.exports = {
   content: ["./src/**/*.tsx", "./index.html"],
   theme: {
+    screens: {
+      extraMobile: '240px'
+    },
     extend: {
       fontFamily: {
         sans: ["Inter", 'sans-serif'],

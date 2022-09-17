@@ -1,12 +1,15 @@
-import "./styles/main.css"
+import { useEffect, useState } from "react";
 import * as Dialog from '@radix-ui/react-dialog';
 import axios from 'axios'
+import { useKeenSlider } from 'keen-slider/react'
+
 import logoImg from "./assets/logo.svg";
+import "keen-slider/keen-slider.min.css"
+import "./styles/main.css"
 
 import { GameBanner } from "./components/GameBanner";
 
 import { CreateAdBanner } from "./components/CreateAdBanner";
-import { useEffect, useState } from "react";
 import { CreateAdModal } from "./components/CreateAdModal";
 
 interface Game {
@@ -23,6 +26,24 @@ function App() {
 
   const [games, setGames] = useState<Game[]>([]);
 
+  const [sliderRef] = useKeenSlider({
+    mode:"free-snap",
+    slides: {
+      perView: 5,
+      spacing: 15,
+      origin:"center",
+    },
+    breakpoints:{
+      '(max-width: 640px)':{
+        slides:{
+          perView: 2,
+          spacing: 10,
+          origin:"center"
+        }
+      }
+    }
+  })
+
   useEffect(() => {
     axios('http://localhost:3333/games').then((response: any) => {
       setGames(response.data)
@@ -33,20 +54,18 @@ function App() {
   return (
     <div className="max-w-[1344px] mx-auto flex flex-col items-center my-20">
       <img src={logoImg} alt="Logo" />
-      <h1 className="text-6xl text-white font-black mt-20">
+      <h1 className="text-6xl extraMobile:text-3xl text-white font-black mt-20">
         Seu <span className="bg-nlw-gradient bg-clip-text text-transparent">duo</span> está aqui
       </h1>
-      <div className="grid grid-cols-6 gap-6 mt-16">
-
-        {games.map((game: Game) => (
+      <div ref={sliderRef} className="keen-slider grid grid-cols-6 gap-6 mt-16 w-full">
+        {games.map(game => (
           <GameBanner
-            key={game.id}
+            _id={game.id}
+            adsCount={game._count.ads}
             bannerUrl={game.bannerUrl}
             title={game.title}
-            adsCount={game._count.ads}
-          />
+            key={game.id} />
         ))}
-
       </div>
       <Dialog.Root>
         <CreateAdBanner />
